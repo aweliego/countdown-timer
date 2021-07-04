@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: antiquewhite;
+  font-family: Roboto, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: scroll;
+  margin: 0;
+}
+
+.container {
+  background-color: #fff;
+  padding: 40px 80px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
+
+/* Form */
+h1 {
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+  padding: 0 40px;
+}
+
+.date-time {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+::-webkit-datetime-edit {
+  font-family: Roboto;
+  font-size: inherit;
+}
+/* ::-webkit-datetime-edit-fields-wrapper { background: silver; } */
+/* ::-webkit-datetime-edit-text { font-family: Arial, Helvetica, sans-serif;} */
+/* ::-webkit-datetime-edit-month-field { color: blue; }
+::-webkit-datetime-edit-day-field { color: green; }
+::-webkit-datetime-edit-year-field { color: purple; } */
+/* ::-webkit-inner-spin-button { display: none; } */
+/* ::-webkit-calendar-picker-indicator { * display: none; }*/
+
+label {
+  padding-bottom: 5px;
+  font-weight: bold;
+}
+
+label span {
+  font-size: 14px;
+  color: lightgrey;
+}
+
+/* Make placeholder text transparent and disappear when input field is in focus */
+input:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+input:focus:-moz-placeholder {
+  color: transparent;
+} /* Firefox 18- */
+input:focus::-moz-placeholder {
+  color: transparent;
+} /* Firefox 19+ */
+input:focus:-ms-input-placeholder {
+  color: transparent;
+} /* oldIE ;) */
+
+.form-control > input {
+  height: 30px;
+  /* text-indent: 5px; */
+  font-size: inherit;
+  border: 0;
+  border-bottom: 2px lightgray solid;
+}
+
+.form-control > input:focus {
+  outline: 0;
+}
+
+.date-time > .form-control {
+  width: 250px;
+}
+
+.btn {
+  cursor: pointer;
+  display: inline-block;
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding: 15px;
+  font-family: inherit;
+  font-size: 16px;
+  border: 0;
+  background-color: #98b824;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn:focus {
+  outline: 0;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:hover {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+/* Countdown timer */
+.deadline-intro {
+  text-align: center;
+}
+
+.deadline {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.deadline-format {
+  background: white;
+  margin: 15px 0px;
+  padding: 0;
+  width:300px;
+  /* height: 120px; */
+  display: grid;
+  place-items: center;
+  /* display: flex;
+  flex-direction: column; */
+  text-align: center;
+}
+
+.deadline h4 {
+  font-size: 50px;
+  margin: 30px 0;
+
+}
+
+.deadline-format span {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 26px;
+}
