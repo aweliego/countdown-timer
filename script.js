@@ -1,6 +1,7 @@
 'use strict';
 
 const main = document.getElementById('main');
+const form = document.querySelector('form');
 const labels = document.querySelectorAll('label');
 const eventName = document.getElementById('name');
 const inputDate = document.getElementById('date');
@@ -14,23 +15,16 @@ inputDate.value = todayString;
 // Default time input to 00:00
 inputTime.value = '00:00';
 
-startBtn.addEventListener('click', () => {
-  inputDate.valueAsDate = new Date(inputDate.value);
-  console.log(inputDate.value); // logs the date from user input on format yyyy-MM-dd
-
-  // Saving input date from user as event date
-  const eventDate = inputDate.valueAsDate;
-  console.log(eventDate);
-
-  const year = eventDate.getFullYear();
-  const month = eventDate.getMonth();
-  const date = eventDate.getDate();
-  const hours = eventDate.getHours();
-  const minutes = eventDate.getMinutes();
+form.addEventListener('submit', () => {
+  // const year = eventDate.getFullYear();
+  // const month = eventDate.getMonth();
+  // const date = eventDate.getDate();
+  // const hours = eventDate.getHours();
+  // const minutes = eventDate.getMinutes();
   //   console.log(year);
   //   console.log(month);
   //   console.log(date);
-  console.log(hours);
+  //console.log(hours);
   //   console.log(minutes);
 
   let countdown = setInterval(getRemainingTime, 1000);
@@ -38,14 +32,16 @@ startBtn.addEventListener('click', () => {
 });
 
 function getRemainingTime() {
-  // declare eventDate in this function anew to be able to use it in this scope too
+  inputDate.valueAsDate = new Date(inputDate.value);
+  console.log(inputDate.value); // logs the date from user input on format yyyy-MM-dd
+  // Saving input date from user as event date
   const eventDate = inputDate.valueAsDate;
+  console.log(eventDate);
 
   const eventTime = eventDate.getTime();
   // console.log(eventTime);
   const today = new Date().getTime();
   // console.log(today);
-
   const timeLeft = eventTime - today;
   // console.log(timeLeft);
 
