@@ -27,6 +27,13 @@ form.addEventListener('submit', () => {
   //console.log(hours);
   //   console.log(minutes);
 
+  // check if date is in the past
+  const eventDate = inputDate.valueAsDate;
+  if (eventDate < new Date()) {
+    alert('Please select a time in the future.');
+    return false;
+  }
+
   let countdown = setInterval(getRemainingTime, 1000);
   getRemainingTime();
 });
@@ -45,72 +52,81 @@ function getRemainingTime() {
   const timeLeft = eventTime - today;
   // console.log(timeLeft);
 
-  const oneDay = 24 * 60 * 60 * 1000;
-  const oneHour = 60 * 60 * 1000;
-  const oneMinute = 60 * 1000;
+  if (eventDate < new Date()) {
+    // alert('Please select a time in the future.');
+    // return false;
+  } else {
+    const oneDay = 24 * 60 * 60 * 1000;
+    const oneHour = 60 * 60 * 1000;
+    const oneMinute = 60 * 1000;
 
-  // calculate how many days/hrs/mins/secs we have in the difference between future and today
-  let days = Math.floor(timeLeft / oneDay);
-  // console.log(days);
-  let hours = Math.floor((timeLeft % oneDay) / oneHour);
-  // console.log(hours);
-  let minutes = Math.floor((timeLeft % oneHour) / oneMinute);
-  // console.log(minutes);
-  let seconds = Math.floor((timeLeft % oneMinute) / 1000);
-  console.log(seconds);
+    // calculate how many days/hrs/mins/secs we have in the difference between future and today
+    let days = Math.floor(timeLeft / oneDay);
+    // console.log(days);
+    let hours = Math.floor((timeLeft % oneDay) / oneHour);
+    // console.log(hours);
+    let minutes = Math.floor((timeLeft % oneHour) / oneMinute);
+    // console.log(minutes);
+    let seconds = Math.floor((timeLeft % oneMinute) / 1000);
+    console.log(seconds);
 
-  // Set values dynamically
-  //Create a new HTML element with values above
+    // Set values dynamically
+    //Create a new HTML element with values above
 
-  main.innerHTML = '';
-  const deadlineIntro = document.createElement('div');
-  deadlineIntro.classList.add('deadline-intro');
-  deadlineIntro.innerHTML = `<h2>${pickALine(openingLines)}</h2>
-  <p>${eventName.value} starts in:</p>`;
-  main.appendChild(deadlineIntro);
+    main.innerHTML = '';
+    const deadlineIntro = document.createElement('div');
+    deadlineIntro.classList.add('deadline-intro');
+    deadlineIntro.innerHTML = `<h2>${pickALine(openingLines)}</h2>
+    <p>${eventName.value} starts in:</p>`;
+    main.appendChild(deadlineIntro);
 
-  // Deadline element
-  const deadline = document.createElement('div');
-  deadline.classList.add('deadline');
+    // Deadline element
+    const deadline = document.createElement('div');
+    deadline.classList.add('deadline');
 
-  //const deadlineEl = document.createElement('div');
-  //deadlineEl.classList.add('deadline-format');
-  deadline.innerHTML = `    <div class="deadline-format">
-    <div>
-      <h4 class="days">${days < 10 ? `0${days}` : days}</h4>
-      <span>days</span>
+    //const deadlineEl = document.createElement('div');
+    //deadlineEl.classList.add('deadline-format');
+    deadline.innerHTML = `    <div class="deadline-format">
+      <div>
+        <h4 class="days">${days < 10 ? `0${days}` : days}</h4>
+        <span>days</span>
+      </div>
     </div>
-  </div>
-
-  <div class="deadline-format">
-    <div>
-      <h4 class="hours">${hours < 10 ? `0${hours}` : hours}</h4>
-      <span>hours</span>
+  
+    <div class="deadline-format">
+      <div>
+        <h4 class="hours">${hours < 10 ? `0${hours}` : hours}</h4>
+        <span>hours</span>
+      </div>
     </div>
-  </div>
-
-  <div class="deadline-format">
-    <div>
-      <h4 class="mins">${minutes < 10 ? `0${minutes}` : minutes}</h4>
-      <span>mins</span>
+  
+    <div class="deadline-format">
+      <div>
+        <h4 class="mins">${minutes < 10 ? `0${minutes}` : minutes}</h4>
+        <span>mins</span>
+      </div>
     </div>
-  </div>
+  
+    <div class="deadline-format">
+      <div>
+        <h4 class="secs">${seconds < 10 ? `0${seconds}` : seconds}</h4>
+        <span>secs</span>
+      </div>
+    </div>`;
 
-  <div class="deadline-format">
-    <div>
-      <h4 class="secs">${seconds < 10 ? `0${seconds}` : seconds}</h4>
-      <span>secs</span>
-    </div>
-  </div>`;
+    main.appendChild(deadline);
 
-  main.appendChild(deadline);
+    const otherActions = document.createElement('div');
+    otherActions.innerHTML = `<p>Sit back and relax, or select one of the following options:</p>
+    <input class="btn" type="submit" value="Edit event" />
+    <input class="btn" type="submit" value="Delete event" />
+    <input class="btn" type="submit" value="Create new event" />`;
+    main.appendChild(otherActions);
+  }
 
-  const otherActions = document.createElement('div');
-  otherActions.innerHTML = `<p>Sit back and relax, or select one of the following options:</p>
-  <input class="btn" type="submit" value="Edit event" />
-  <input class="btn" type="submit" value="Delete event" />
-  <input class="btn" type="submit" value="Create new event" />`;
-  main.appendChild(otherActions);
+  if (timeLeft < 0) {
+    clearInterval(countdown);
+  }
 }
 
 // if inputDate.value is prior to today, show message/warning
