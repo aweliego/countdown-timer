@@ -12,7 +12,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  overflow: scroll;
+  overflow-x: hidden;
   margin: 0;
 }
 
@@ -103,7 +103,7 @@ input:focus:-ms-input-placeholder {
 
 .btn {
   cursor: pointer;
-  margin-top: 20px;
+  margin: 20px 15px 15px 0;
   padding: 15px;
   font-family: inherit;
   font-size: 16px;
@@ -118,10 +118,28 @@ input:focus:-ms-input-placeholder {
   outline: 0;
 }
 
-.btn:hover {
+.btn:hover .start {
   animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   transform: translate3d(0, 0, 0);
   perspective: 1000px;
+}
+
+.options {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.option {
+  transition: background-color 0.3s ease;
+}
+
+.option:hover {
+  background-color: #b5db29;
+}
+
+.option:nth-child(2):hover {
+  background-color: rgba(228, 19, 19, 0.856);
 }
 
 @keyframes shake {
@@ -160,7 +178,7 @@ input:focus:-ms-input-placeholder {
   background: white;
   margin: 15px 0px;
   padding: 0;
-  width:300px;
+  width: 300px;
   /* height: 120px; */
   display: grid;
   place-items: center;
@@ -172,7 +190,6 @@ input:focus:-ms-input-placeholder {
 .deadline h4 {
   font-size: 50px;
   margin: 30px 0;
-
 }
 
 .deadline-format span {

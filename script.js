@@ -8,6 +8,8 @@ const inputDate = document.getElementById('date');
 const inputTime = document.getElementById('time');
 const startBtn = document.querySelector('.btn');
 
+eventName.focus();
+
 // Default date input to value of today
 let todayString = new Date().toISOString().substring(0, 10);
 inputDate.value = todayString;
@@ -83,9 +85,6 @@ function getRemainingTime() {
     // Deadline element
     const deadline = document.createElement('div');
     deadline.classList.add('deadline');
-
-    //const deadlineEl = document.createElement('div');
-    //deadlineEl.classList.add('deadline-format');
     deadline.innerHTML = `    <div class="deadline-format">
       <div>
         <h4 class="days">${days < 10 ? `0${days}` : days}</h4>
@@ -118,9 +117,12 @@ function getRemainingTime() {
 
     const otherActions = document.createElement('div');
     otherActions.innerHTML = `<p>Sit back and relax, or select one of the following options:</p>
-    <input class="btn" type="submit" value="Edit event" />
-    <input class="btn" type="submit" value="Delete event" />
-    <input class="btn" type="submit" value="Create new event" />`;
+    <div class="options">
+    <input class="btn option" type="submit" value="Edit event" />
+    <input class="btn option" type="submit" value="Delete event" />
+    <input class="btn option" type="submit" value="Create new event" />
+    </div>
+    `;
     main.appendChild(otherActions);
   }
 
