@@ -13,33 +13,37 @@
     />
   </head>
   <body>
-    <main id="main" class="container">
-      <h1>Enter your event</h1>
+    <main id="main">
+      <section class="container">
+        <h1>Enter your event</h1>
 
-      <form>
-        <div class="form-control">
-          <label for="name">Event name</label>
-          <input
-            type="text"
-            id="name"
-            name="event-name"
-            placeholder="Give a name to your event"
-            required
-          />
-        </div>
-        <div class="date-time">
+        <form action="./results.html" method="GET">
           <div class="form-control">
-            <label for="date">Date</label>
-            <input type="date" id="date" name="event-date" required />
+            <label for="name">Event name</label>
+            <input
+              type="text"
+              id="name"
+              name="event-name"
+              placeholder="Give a name to your event"
+              required
+            />
           </div>
-          <div class="form-control">
-            <label for="time">Time <span>(optional)</span></label>
-            <input type="time" id="time" name="event-time" />
+          <div class="date-time">
+            <div class="form-control">
+              <label for="date">Date</label>
+              <input type="date" id="date" name="event-date" required />
+            </div>
+            <div class="form-control">
+              <label for="time">Time <span>(optional)</span></label>
+              <input type="time" id="time" name="event-time" />
+            </div>
           </div>
-        </div>
 
-        <input class="btn start" type="submit" value="Start countdown" />
-      </form>
+          <input class="btn start" type="submit" value="Start countdown" />
+        </form>
+      </section>
+
+      <section id="event-list"></section>
     </main>
 
     <script src="script.js"></script>

@@ -1,4 +1,8 @@
+// https://docs.google.com/document/d/1BUmMqbh8vqBVCcyywfG4Ov1E9eVR5AJFJLfUJDWydho/edit
+
 'use strict';
+
+// ****** SELECT ITEMS **********
 
 const main = document.getElementById('main');
 const form = document.querySelector('form');
@@ -7,140 +11,131 @@ const eventName = document.getElementById('name');
 const inputDate = document.getElementById('date');
 const inputTime = document.getElementById('time');
 const startBtn = document.querySelector('.btn');
+const eventList = document.getElementById('event-list');
 
-eventName.focus();
+// ****** EVENT LISTENERS **********
 
-// Default date input to value of today
-let todayString = new Date().toISOString().substring(0, 10);
-inputDate.value = todayString;
-
-// Default time input to 00:00
-inputTime.value = '00:00';
-
-form.addEventListener('submit', () => {
-  // const year = eventDate.getFullYear();
-  // const month = eventDate.getMonth();
-  // const date = eventDate.getDate();
-  // const hours = eventDate.getHours();
-  // const minutes = eventDate.getMinutes();
-  //   console.log(year);
-  //   console.log(month);
-  //   console.log(date);
-  //console.log(hours);
-  //   console.log(minutes);
-
-  // check if date is in the past
-  const eventDate = inputDate.valueAsDate;
-  if (eventDate < new Date()) {
-    alert('Please select a time in the future.');
-    return false;
-  }
-
+// Submit form
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  checkDate();
+  //loadEvent();
+  addToLocalStorage();
   let countdown = setInterval(getRemainingTime, 1000);
   getRemainingTime();
 });
 
-function getRemainingTime() {
-  inputDate.valueAsDate = new Date(inputDate.value);
-  console.log(inputDate.value); // logs the date from user input on format yyyy-MM-dd
-  // Saving input date from user as event date
-  const eventDate = inputDate.valueAsDate;
-  console.log(eventDate);
+window.addEventListener('DOMContentLoaded', setBackToDefault);
 
-  const eventTime = eventDate.getTime();
+// ****** FUNCTIONS **********
+
+function setBackToDefault() {
+  eventName.focus();
+  let todayString = new Date().toISOString().substring(0, 10);
+  inputDate.value = todayString;
+  inputTime.value = '00:00';
+}
+
+// Check if input date is in the past
+function checkDate() {
+  const eventDay = inputDate.valueAsDate;
+  if (eventDay < new Date()) {
+    alert('Please select a time in the future.');
+    return false;
+  }
+}
+
+// COUNTDOWN
+function getRemainingTime() {
+  //console.log(inputDate.value); // logs the date from user input in format yyyy-MM-dd (STRING)
+  //console.log(inputTime.value); // logs time in format 00:00 (STRING)
+
+  // NEW CODE Saving input date from user as event date
+
+  let eventDay = inputDate.valueAsDate;
+  console.log(eventDay);
+
+  const eventYear = eventDay.getFullYear();
+  const eventMonth = eventDay.getMonth();
+  const eventDate = eventDay.getDate();
+  const eventHours = parseInt(inputTime.value.split(':')[0]);
+  const eventMinutes = parseInt(inputTime.value.split(':')[1]);
+  console.log(eventYear);
+  console.log(eventMonth);
+  console.log(eventDate);
+  console.log(eventHours);
+  console.log(eventMinutes);
+
+  inputDate.valueAsDate = new Date(
+    eventYear,
+    eventMonth,
+    eventDate,
+    eventHours,
+    eventMinutes,
+    0
+  );
+  console.log(inputDate.valueAsDate);
+
+  // PREVIOUS CODE Saving input date from user as event date
+  // inputDate.valueAsDate = new Date(inputDate.value);
+  // const eventDay = inputDate.valueAsDate;
+  // console.log(eventDay);
+
+  const eventTime = eventDay.getTime();
   // console.log(eventTime);
   const today = new Date().getTime();
   // console.log(today);
   const timeLeft = eventTime - today;
   // console.log(timeLeft);
 
-  if (eventDate < new Date()) {
-    // alert('Please select a time in the future.');
-    // return false;
-  } else {
-    const oneDay = 24 * 60 * 60 * 1000;
-    const oneHour = 60 * 60 * 1000;
-    const oneMinute = 60 * 1000;
+  const oneDay = 24 * 60 * 60 * 1000;
+  const oneHour = 60 * 60 * 1000;
+  const oneMinute = 60 * 1000;
 
-    // calculate how many days/hrs/mins/secs we have in the difference between future and today
-    let days = Math.floor(timeLeft / oneDay);
-    // console.log(days);
-    let hours = Math.floor((timeLeft % oneDay) / oneHour);
-    // console.log(hours);
-    let minutes = Math.floor((timeLeft % oneHour) / oneMinute);
-    // console.log(minutes);
-    let seconds = Math.floor((timeLeft % oneMinute) / 1000);
-    console.log(seconds);
+  // calculate how many days/hrs/mins/secs we have in the difference between future and today
+  let days = Math.floor(timeLeft / oneDay);
+  // console.log(days);
+  let hours = Math.floor((timeLeft % oneDay) / oneHour);
+  // console.log(hours);
+  let minutes = Math.floor((timeLeft % oneHour) / oneMinute);
+  // console.log(minutes);
+  let seconds = Math.floor((timeLeft % oneMinute) / 1000);
+  //console.log(seconds);
 
-    // Set values dynamically
-    //Create a new HTML element with values above
-
-    main.innerHTML = '';
-    const deadlineIntro = document.createElement('div');
-    deadlineIntro.classList.add('deadline-intro');
-    deadlineIntro.innerHTML = `<h2>${pickALine(openingLines)}</h2>
-    <p>${eventName.value} starts in:</p>`;
-    main.appendChild(deadlineIntro);
-
-    // Deadline element
-    const deadline = document.createElement('div');
-    deadline.classList.add('deadline');
-    deadline.innerHTML = `    <div class="deadline-format">
-      <div>
-        <h4 class="days">${days < 10 ? `0${days}` : days}</h4>
-        <span>days</span>
-      </div>
-    </div>
-  
-    <div class="deadline-format">
-      <div>
-        <h4 class="hours">${hours < 10 ? `0${hours}` : hours}</h4>
-        <span>hours</span>
-      </div>
-    </div>
-  
-    <div class="deadline-format">
-      <div>
-        <h4 class="mins">${minutes < 10 ? `0${minutes}` : minutes}</h4>
-        <span>mins</span>
-      </div>
-    </div>
-  
-    <div class="deadline-format">
-      <div>
-        <h4 class="secs">${seconds < 10 ? `0${seconds}` : seconds}</h4>
-        <span>secs</span>
-      </div>
-    </div>`;
-
-    main.appendChild(deadline);
-
-    const otherActions = document.createElement('div');
-    otherActions.innerHTML = `<p>Sit back and relax, or select one of the following options:</p>
-    <div class="options">
-    <input class="btn option" type="submit" value="Edit event" />
-    <input class="btn option" type="submit" value="Delete event" />
-    <input class="btn option" type="submit" value="Create new event" />
-    </div>
-    `;
-    main.appendChild(otherActions);
-  }
-
-  if (timeLeft < 0) {
-    clearInterval(countdown);
-  }
+  // Set values dynamically
+  //Create a new HTML element with values above
 }
 
-// if inputDate.value is prior to today, show message/warning
-// if timeLeft < 0, clearInterval + alert that event is reached
+const createEvent = ({ name, date, time }) => ({
+  name,
+  date,
+  time,
+});
 
-const openingLines = [
-  'Exciting!',
-  'Fabulous!',
-  'Sensational!',
-  'Awesome!',
-  'Who needs an agenda?',
-  'Ready for it?',
-];
+function loadEvent() {
+  const event = document.createElement('div');
+  event.innerHTML = `<p class="title">${eventName.value}</p>
+  <div class="btn-container">
+    <button type="button" class="edit-btn">
+      <i class="fas fa-edit"></i>
+    </button>
+    <button type="button" class="delete-btn">
+      <i class="fas fa-trash"></i>
+    </button>
+  </div>`;
+  eventList.append(event);
+}
 
-const pickALine = (array) => array[Math.floor(Math.random() * array.length)];
+function addToLocalStorage() {
+  const eventDay = inputDate.valueAsDate;
+  const newEvent = createEvent({
+    name: eventName.value,
+    date: eventDay,
+    time: inputTime.value,
+  });
+  console.log(newEvent);
+  window.localStorage.setItem('event', JSON.stringify(newEvent));
+}
+
+// The function to create the event should create a HTML element (including edit and delete buttons) within a container
+// Then in getRemainingTime, create a new element with the dealdine and append it to that container
